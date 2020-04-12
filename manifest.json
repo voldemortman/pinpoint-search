@@ -1,0 +1,6 @@
+{
+    "name": "Pinpoint search",
+    "version": "1.0",
+    "description": "Search the webpage for text within a specific area",
+    "manifest_version": 2
+}
