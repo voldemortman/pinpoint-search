@@ -1,0 +1,2 @@
+# short-hunt
+search the dom for text within specific html tags and with adjustable changes to the tag NodeList
