@@ -1,6 +1,16 @@
 {
     "name": "Pinpoint search",
     "version": "1.0",
+    "permissions": [
+        "activeTab"
+    ],
     "description": "Search the webpage for text within a specific area",
+    "background": {
+        "scripts": ["src/background.js"],
+        "persistent": false
+    },
+    "browser_action": {
+        
+    },
     "manifest_version": 2
 }
