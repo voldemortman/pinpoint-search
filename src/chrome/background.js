@@ -10,5 +10,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 chrome.tabs.executeScript({
-  file: 'src/content.js',
+  file: 'src/bl/content.js',
 });
