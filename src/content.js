@@ -1,7 +1,6 @@
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
+chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
   if (request.greeting === 'hello') {
-    console.log('greeted hello');
-    sendResponse({farewell: 'goodbye'});
+    console.log('greeted hello'); // eslint-disable-line no-console
+    sendResponse({ farewell: 'goodbye' });
   }
-})
+});
