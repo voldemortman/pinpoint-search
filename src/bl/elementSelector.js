@@ -1,31 +1,56 @@
 class ElementSelector {
   constructor() {
-    this.selectedElementList = null;
+    this.selectedElement = null;
     this.elementsOnClick = new Map();
+    this.elementsStyle = new Map();
   }
 
   startSearch = () => {
-    while (!this.selectedElementList) {
-      const hoveredElementList = document.querySelectorAll(':hover');
-      hoveredElementList.forEach((hoveredElement, _, elementList) => {
-        const element = hoveredElement;
-        if (!this.elementsOnClick.get(element)) {
-          this.elementsOnClick.set(element, element.onclick);
-          element.onclick = () => {
-            this.selectedElementList = elementList;
-          };
-        }
-      });
-    }
-    this.finishSearch();
+    const elements = document.querySelectorAll('*');
+    elements.forEach((element) => {
+      element.addEventListener('mouseenter', this.mouseEnter);
+      element.addEventListener('mouseleave', this.mouseLeave);
+    });
   }
 
   finishSearch = () => {
-    const elementsOnClickKeys = this.elementsOnClick.keys();
-    let result = elementsOnClickKeys.next();
-    while (result.done) {
-      result.value.onclick = this.elementsOnClick.get(result.value);
-      result = elementsOnClickKeys.next();
+    const elements = document.querySelectorAll('*');
+    elements.forEach((element) => {
+      element.removeEventListener('mouseenter', this.mouseEnter);
+      element.removeEventListener('mouseleave', this.mouseLeave);
+    });
+  }
+
+  mouseEnter = ({ target }) => {
+    this.highlightElement(target);
+    if (!this.elementsOnClick.get(target)) {
+      this.elementsOnClick.set(target, target.onclick);
+      target.onclick = () => {
+        this.selectedElement = target;
+        this.finishSearch();
+      };
+    }
+  }
+
+  mouseLeave = ({ target }) => {
+    this.removeElementHighlight(target);
+    if (this.elementsOnClick.get(target)) {
+      target.onclick = this.elementsOnClick.get(target);
+      this.elementsOnClick.delete(target);
+    }
+  }
+
+  highlightElement = (element) => {
+    if (!this.elementsStyle.get(element)) {
+      this.elementsStyle.set(element, element.style);
+      element.style.backgroundColor = '#a0c5e8';
+    }
+  }
+
+  removeElementHighlight = (element) => {
+    if (this.elementsStyle.get(element)) {
+      element.style = this.elementsStyle.get(element);
+      this.elementsStyle.delete(element);
     }
   }
 }
